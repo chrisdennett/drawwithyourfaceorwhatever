@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { paint } from "../helpers/helpers";
 
 export const DrawingCanvas = ({
   onUpdateCanvas,
   brush,
+  showMakeBrushPage,
   brushSize = { w: 42, h: 50 },
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
@@ -81,7 +84,12 @@ export const DrawingCanvas = ({
 
   return (
     <div>
-      <button onClick={clearCanvas}>CLEAR</button>
+      <TopBar>
+        <h1>Drawwithyourfaceorwhatever</h1>
+        <button onClick={clearCanvas}>CLEAR</button>
+        <button onClick={showMakeBrushPage}>Edit Brush</button>
+      </TopBar>
+
       <canvas
         ref={canvas}
         onMouseDown={onMouseDown}
@@ -93,11 +101,11 @@ export const DrawingCanvas = ({
   );
 };
 
-const paint = (ctx, brush, brushSize, x, y) => {
-  const { width, height } = brush;
-  const { w, h } = brushSize;
-  const halfW = w / 2;
-  const halfH = h / 2;
-
-  ctx.drawImage(brush, 0, 0, width, height, x - halfW, y - halfH, w, h);
-};
+const TopBar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  padding: 10px;
+`;
