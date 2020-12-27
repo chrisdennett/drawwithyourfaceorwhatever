@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { paint } from "../helpers/helpers";
 
-export const DrawingCanvas = ({
+export const MaskDrawingCanvas = ({
   onUpdateCanvas,
-  brush,
-  showMakeBrushPage,
-  brushSize = { w: 42, h: 50 },
+  width = 200,
+  height = 200,
+  brushWidth = 10,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [point, setPoint] = useState(null);
@@ -17,9 +15,9 @@ export const DrawingCanvas = ({
   useEffect(() => {
     if (!canvas || !canvas.current) return;
     if (isSetup) return;
-    setupCanvas();
+    clearCanvas();
     setIsSetUp(true);
-  }, [canvas, isSetup, setIsSetUp]);
+  }, [canvas]);
 
   const onMouseDown = (e) => {
     setIsDrawing(true);
@@ -29,20 +27,11 @@ export const DrawingCanvas = ({
 
   const clearCanvas = () => {
     const c = canvas.current;
+    c.width = width;
+    c.height = height;
     const ctx = c.getContext("2d");
     ctx.beginPath();
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, c.width, c.height);
-  };
-
-  const setupCanvas = () => {
-    if (isSetup) return;
-
-    const c = canvas.current;
-    c.width = window.innerWidth;
-    c.height = window.innerHeight - 60;
-
-    clearCanvas();
+    ctx.clearRect(0, 0, c.width, c.height);
   };
 
   const onMouseMove = (e) => {
@@ -79,33 +68,26 @@ export const DrawingCanvas = ({
 
     const c = canvas.current;
     const ctx = c.getContext("2d");
-    paint(ctx, brush.brushCanvas, brushSize, to.x, to.y);
+    ctx.beginPath();
+
+    ctx.strokeStyle = "0";
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.lineWidth = brushWidth;
+    ctx.stroke();
   };
 
-  return (
-    <div>
-      <TopBar>
-        <h1>Drawwithyourfaceorwhatever</h1>
-        <button onClick={clearCanvas}>CLEAR</button>
-        <button onClick={showMakeBrushPage}>Edit Brush</button>
-      </TopBar>
+  //<button onClick={clearCanvas}>CLEAR</button>
 
-      <canvas
-        ref={canvas}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseOut={onMouseUp}
-        onMouseUp={onMouseUp}
-      />
-    </div>
+  return (
+    <canvas
+      ref={canvas}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseOut={onMouseUp}
+      onMouseUp={onMouseUp}
+    />
   );
 };
-
-const TopBar = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  padding: 10px;
-`;

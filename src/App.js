@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { BrushMaker } from "./components/Brushmaker";
-import { DrawingCanvas } from "./components/DrawingCanvas";
+import { useSampleImage } from "./hooks/useSampleImage";
+import { BrushMaker } from "./pages/Brushmaker";
+import { DrawingCanvas } from "./pages/DrawingCanvas";
 
 // pages "paint" / "makeBrush"
 
 const App = () => {
   const [currPage, setCurrPage] = useState("makeBrush");
   const [brush, setBrush] = useState(null);
+  const [sourceImg, setSourceImg] = useState(null);
+  const [maskImg, setMaskImg] = useState(null);
+
+  useSampleImage("test-mask-transparent-bg.png", setMaskImg);
+  useSampleImage("doug.png", setSourceImg);
 
   const onUpdateCanvas = (canv) => {
     // console.log(canv);
@@ -32,6 +38,10 @@ const App = () => {
 
         {currPage === "makeBrush" && (
           <BrushMaker
+            sourceImg={sourceImg}
+            setSourceImg={setSourceImg}
+            setMaskImg={setMaskImg}
+            maskImg={maskImg}
             showPaintPage={showPaintPage}
             setBrush={setBrush}
             brush={brush}
@@ -45,12 +55,7 @@ const App = () => {
 export default App;
 
 const Page = styled.div`
-  display: flex;
   background: whitesmoke;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 
   canvas {
     border: 1px solid black;
