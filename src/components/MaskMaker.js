@@ -23,8 +23,7 @@ export const MaskMaker = ({ setBrush, sourceImg, maskImg, setMaskImg }) => {
     <CanvasHolder style={{ width: sourceImg.width, height: sourceImg.height }}>
       <PhotoCanvas photo={sourceImg} />
       <MaskDrawingCanvas
-        maskCanvas={maskImg}
-        setMaskCanvas={setMaskImg}
+        maskImg={maskImg}
         onUpdateCanvas={onUpdateCanvas}
         width={sourceImg.width}
         height={sourceImg.height}
@@ -53,13 +52,14 @@ const createBrushCanvas = (sourceImg, maskImg, bounds) => {
       bottom: sourceImg.height,
     };
   }
+  console.log("maskImg: ", maskImg);
   const { top, right, bottom, left } = bounds;
   const outW = right - left;
   const outH = bottom - top;
 
   const canvas = document.createElement("canvas");
-  canvas.width = outW; // get widest sprite
-  canvas.height = outH; // add all sprites heights
+  canvas.width = outW;
+  canvas.height = outH;
 
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, outW, outH);

@@ -19,7 +19,9 @@ export const DrawingCanvas = ({
     if (isSetup) return;
     setupCanvas();
     setIsSetUp(true);
-  }, [canvas, isSetup, setIsSetUp]);
+
+    // eslint-disable-next-line
+  }, [canvas]);
 
   const onMouseDown = (e) => {
     setIsDrawing(true);
@@ -85,7 +87,7 @@ export const DrawingCanvas = ({
   return (
     <div>
       <TopBar>
-        <h1>Drawwithyourfaceorwhatever</h1>
+        <h1>Paintwithyourfaceorwhatever</h1>
         <button onClick={clearCanvas}>CLEAR</button>
         <button onClick={showMakeBrushPage}>Edit Brush</button>
       </TopBar>

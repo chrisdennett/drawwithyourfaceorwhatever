@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 export const MaskDrawingCanvas = ({
   onUpdateCanvas,
+  maskImg,
   width = 200,
   height = 200,
   brushWidth = 10,
@@ -16,6 +17,10 @@ export const MaskDrawingCanvas = ({
     if (!canvas || !canvas.current) return;
     if (isSetup) return;
     clearCanvas();
+    const c = canvas.current;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(maskImg, 0, 0);
+
     setIsSetUp(true);
   }, [canvas]);
 
