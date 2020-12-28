@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useSampleImage } from "./hooks/useSampleImage";
 import { BrushMaker } from "./pages/Brushmaker";
-import { DrawingCanvas } from "./pages/DrawingCanvas";
+import { PaintingCanvas } from "./pages/PaintingCanvas";
 
 // pages "paint" / "makeBrush"
 
@@ -30,7 +30,7 @@ const App = () => {
     <Page>
       <main>
         {currPage === "paint" && (
-          <DrawingCanvas
+          <PaintingCanvas
             painting={painting}
             onUpdateCanvas={onUpdateCanvas}
             brush={brush}

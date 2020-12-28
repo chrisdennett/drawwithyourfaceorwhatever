@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { paint } from "../helpers/helpers";
 
-export const DrawingCanvas = ({
+export const PaintingCanvas = ({
   onUpdateCanvas,
   painting,
   brush,

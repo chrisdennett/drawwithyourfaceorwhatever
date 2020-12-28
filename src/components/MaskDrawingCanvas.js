@@ -28,6 +28,7 @@ export const MaskDrawingCanvas = ({
     }
 
     setIsSetUp(true);
+    // eslint-disable-next-line
   }, [canvas, maskImg]);
 
   const onMouseDown = (e) => {
