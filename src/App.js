@@ -11,6 +11,7 @@ const App = () => {
   const [maskImg, setMaskImg] = useState({ data: 0, canvas: null });
   const [painting, setPainting] = useState({ data: 0, canvas: null });
 
+  // LOAD SAMPLE IMAGE FOR BRUSH SOURCE
   useEffect(() => {
     if (!sourceImg.canvas) {
       const image = new Image();
@@ -25,13 +26,13 @@ const App = () => {
     }
   });
 
+  // LOAD SAMPLE IMAGE FOR MASK
   useEffect(() => {
     if (!maskImg.canvas) {
       const image = new Image();
       image.crossOrigin = "Anonymous";
       image.onload = () => {
         const canvas = createCanvasFromImage(image);
-        console.log("canvas: ", canvas);
         setMaskImg((prev) => {
           return { canvas, data: prev.data + 1 };
         });

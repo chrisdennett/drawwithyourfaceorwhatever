@@ -21,13 +21,24 @@ export const BrushMaker = ({
       return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
     });
 
+  const onPhotoSelected = (img) => {
+    setSourceImg((prev) => {
+      return { canvas: img, data: prev.data + 1 };
+    });
+
+    setMaskImg((prev) => {
+      const { width, height } = img;
+      return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
+    });
+  };
+
   return (
     <Page>
       <TopBar>
         <h1>Makeabrushfromyourfaceorwhatever...</h1>
         <button onClick={showPaintPage}>GetPainting</button>
         <button onClick={clearMask}>Clear</button>
-        <PhotoSelector onPhotoSelected={setSourceImg} />
+        <PhotoSelector onPhotoSelected={onPhotoSelected} />
       </TopBar>
 
       {sourceImg && (

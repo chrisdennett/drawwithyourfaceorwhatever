@@ -69,6 +69,8 @@ export const drawToCanvas = (sourceCanvas, targCanvas) => {
   const ctx = targCanvas.getContext("2d");
   targCanvas.width = sourceCanvas.width;
   targCanvas.height = sourceCanvas.height;
+
+  console.log("targCanvas.width: ", targCanvas.width);
   // CLEAR
   ctx.beginPath();
   ctx.clearRect(0, 0, targCanvas.width, targCanvas.height);
