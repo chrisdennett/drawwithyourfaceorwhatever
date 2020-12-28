@@ -11,12 +11,13 @@ const App = () => {
   const [brush, setBrush] = useState(null);
   const [sourceImg, setSourceImg] = useState(null);
   const [maskImg, setMaskImg] = useState(null);
+  const [painting, setPainting] = useState(null);
 
   useSampleImage("test-mask-transparent-bg.png", setMaskImg);
   useSampleImage("doug.png", setSourceImg);
 
   const onUpdateCanvas = (canv) => {
-    // console.log(canv);
+    setPainting(canv);
   };
   const showPaintPage = () => {
     setCurrPage("paint");
@@ -30,6 +31,7 @@ const App = () => {
       <main>
         {currPage === "paint" && (
           <DrawingCanvas
+            painting={painting}
             onUpdateCanvas={onUpdateCanvas}
             brush={brush}
             showMakeBrushPage={showMakeBrushPage}

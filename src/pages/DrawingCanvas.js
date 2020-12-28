@@ -4,6 +4,7 @@ import { paint } from "../helpers/helpers";
 
 export const DrawingCanvas = ({
   onUpdateCanvas,
+  painting,
   brush,
   showMakeBrushPage,
   brushSize = { w: 200, h: 300 },
@@ -18,6 +19,13 @@ export const DrawingCanvas = ({
     if (!canvas || !canvas.current) return;
     if (isSetup) return;
     setupCanvas();
+
+    if (painting) {
+      const c = canvas.current;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(painting, 0, 0);
+    }
+
     setIsSetUp(true);
 
     // eslint-disable-next-line

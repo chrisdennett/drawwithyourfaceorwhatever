@@ -13,11 +13,14 @@ export const BrushMaker = ({
   maskImg,
   setMaskImg,
 }) => {
+  const clearMask = () => setMaskImg(null);
+
   return (
     <Page>
       <TopBar>
         <h1>Makeabrushfromyourfaceorwhatever...</h1>
         <button onClick={showPaintPage}>GetPainting</button>
+        <button onClick={clearMask}>Clear</button>
         <PhotoSelector onPhotoSelected={setSourceImg} />
       </TopBar>
       <MaskMaker

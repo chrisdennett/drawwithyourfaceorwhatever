@@ -15,14 +15,20 @@ export const MaskDrawingCanvas = ({
 
   useEffect(() => {
     if (!canvas || !canvas.current) return;
+
+    if (!maskImg) clearCanvas();
+
     if (isSetup) return;
+
     clearCanvas();
-    const c = canvas.current;
-    const ctx = c.getContext("2d");
-    ctx.drawImage(maskImg, 0, 0);
+    if (maskImg) {
+      const c = canvas.current;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(maskImg, 0, 0);
+    }
 
     setIsSetUp(true);
-  }, [canvas]);
+  }, [canvas, maskImg]);
 
   const onMouseDown = (e) => {
     setIsDrawing(true);
