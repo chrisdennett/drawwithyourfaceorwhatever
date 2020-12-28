@@ -110,3 +110,13 @@ export const createCanvasFromImage = (img) => {
 
   return canvas;
 };
+
+export const getClearCanvas = (w, h) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, w, h);
+
+  return canvas;
+};

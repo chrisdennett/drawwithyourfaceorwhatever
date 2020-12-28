@@ -5,6 +5,7 @@ import PhotoSelector from "../components/PhotoSelector";
 import { PhotoCanvas } from "../components/PhotoCanvas";
 // import { MaskDrawingCanvas } from "../components/MaskDrawingCanvas";
 import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
+import { getClearCanvas } from "../helpers/helpers";
 
 export const BrushMaker = ({
   showPaintPage,
@@ -14,7 +15,11 @@ export const BrushMaker = ({
   maskImg,
   setMaskImg,
 }) => {
-  const clearMask = () => setMaskImg({ data: Date.now(), canvas: null });
+  const clearMask = () =>
+    setMaskImg((prev) => {
+      const { width, height } = prev.canvas;
+      return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
+    });
 
   return (
     <Page>
