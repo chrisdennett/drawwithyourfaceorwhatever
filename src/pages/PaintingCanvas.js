@@ -20,10 +20,10 @@ export const PaintingCanvas = ({
     if (isSetup) return;
     setupCanvas();
 
-    if (painting) {
+    if (painting.canvas) {
       const c = canvas.current;
       const ctx = c.getContext("2d");
-      ctx.drawImage(painting, 0, 0);
+      ctx.drawImage(painting.canvas, 0, 0);
     }
 
     setIsSetUp(true);
@@ -89,7 +89,7 @@ export const PaintingCanvas = ({
 
     const c = canvas.current;
     const ctx = c.getContext("2d");
-    paint(ctx, brush, brushSize, to.x, to.y);
+    paint(ctx, brush.canvas, brushSize, to.x, to.y);
   };
 
   return (

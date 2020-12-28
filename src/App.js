@@ -1,28 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSampleImage } from "./hooks/useSampleImage";
+import { createBrushCanvas, createCanvasFromImage } from "./helpers/helpers";
 import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
 
 const App = () => {
   const [currPage, setCurrPage] = useState("makeBrush"); // pages "paint" / "makeBrush"
-  const [brush, setBrush] = useState(null);
-  const [sourceImg, setSourceImg] = useState(null);
-  const [maskImg, setMaskImg] = useState(null);
-  const [painting, setPainting] = useState(null);
+  const [brush, setBrush] = useState({ data: 0, canvas: null });
+  const [sourceImg, setSourceImg] = useState({ data: 0, canvas: null });
+  const [maskImg, setMaskImg] = useState({ data: 0, canvas: null });
+  const [painting, setPainting] = useState({ data: 0, canvas: null });
 
-  useSampleImage("test-mask-transparent-bg.png", setMaskImg);
-  useSampleImage("doug.png", setSourceImg);
+  useEffect(() => {
+    if (!sourceImg.canvas) {
+      const image = new Image();
+      image.crossOrigin = "Anonymous";
+      image.onload = () => {
+        const canvas = createCanvasFromImage(image);
+        setSourceImg((prev) => {
+          return { canvas, data: prev.data + 1 };
+        });
+      };
+      image.src = "doug.png";
+    }
+  });
 
-  const onUpdateCanvas = (canv) => {
-    setPainting(canv);
-  };
-  const showPaintPage = () => {
-    setCurrPage("paint");
-  };
-  const showMakeBrushPage = () => {
-    setCurrPage("makeBrush");
-  };
+  useEffect(() => {
+    if (!maskImg.canvas) {
+      const image = new Image();
+      image.crossOrigin = "Anonymous";
+      image.onload = () => {
+        const canvas = createCanvasFromImage(image);
+        console.log("canvas: ", canvas);
+        setMaskImg((prev) => {
+          return { canvas, data: prev.data + 1 };
+        });
+      };
+      image.src = "test-mask-transparent-bg.png";
+    }
+  });
+
+  useEffect(() => {
+    if (!sourceImg.canvas || !maskImg.canvas) return;
+
+    const brushCanvas = createBrushCanvas(sourceImg.canvas, maskImg.canvas);
+    setBrush((prev) => {
+      return { canvas: brushCanvas, data: prev.data + 1 };
+    });
+  }, [sourceImg.data, maskImg.data]);
+
+  const showPaintPage = () => setCurrPage("paint");
+  const showMakeBrushPage = () => setCurrPage("makeBrush");
 
   return (
     <Page>
@@ -30,7 +58,7 @@ const App = () => {
         {currPage === "paint" && (
           <PaintingCanvas
             painting={painting}
-            onUpdateCanvas={onUpdateCanvas}
+            onUpdateCanvas={setPainting}
             brush={brush}
             showMakeBrushPage={showMakeBrushPage}
           />

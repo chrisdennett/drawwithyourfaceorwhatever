@@ -1,19 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import { MaskMaker } from "../components/MaskMaker";
 import { BrushPreview } from "../components/BrushPreview";
 import PhotoSelector from "../components/PhotoSelector";
+import { PhotoCanvas } from "../components/PhotoCanvas";
+// import { MaskDrawingCanvas } from "../components/MaskDrawingCanvas";
+import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 
 export const BrushMaker = ({
   showPaintPage,
   brush,
-  setBrush,
   setSourceImg,
   sourceImg,
   maskImg,
   setMaskImg,
 }) => {
-  const clearMask = () => setMaskImg(null);
+  const clearMask = () => setMaskImg({ data: Date.now(), canvas: null });
 
   return (
     <Page>
@@ -23,12 +24,19 @@ export const BrushMaker = ({
         <button onClick={clearMask}>Clear</button>
         <PhotoSelector onPhotoSelected={setSourceImg} />
       </TopBar>
-      <MaskMaker
-        setBrush={setBrush}
-        sourceImg={sourceImg}
-        maskImg={maskImg}
-        setMaskImg={setMaskImg}
-      />
+
+      {sourceImg && (
+        <CanvasHolder
+          style={{ width: sourceImg.width, height: sourceImg.height }}
+        >
+          <PhotoCanvas photo={sourceImg} />
+          <ControlledDrawingCanvas
+            sourceCanvas={maskImg}
+            brushWidth={30}
+            setSourceCanvas={setMaskImg}
+          />
+        </CanvasHolder>
+      )}
       {brush && <BrushPreview brushCanvas={brush} />}
     </Page>
   );
@@ -41,4 +49,14 @@ const Page = styled.div`
 const TopBar = styled.div`
   height: 160px;
   padding: 10px;
+`;
+
+const CanvasHolder = styled.div`
+  position: relative;
+  display: inline-block;
+
+  canvas {
+    position: absolute;
+    border: 1px solid black;
+  }
 `;

@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import {
+  drawLine,
+  drawToCanvas,
+  getPointFromMouseEvent,
+} from "../helpers/helpers";
 
 export const ControlledDrawingCanvas = ({
-  onUpdateCanvas,
-  drawingCanvas,
-  width = 200,
-  height = 200,
+  sourceCanvas,
+  setSourceCanvas,
   brushWidth = 10,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
@@ -12,20 +15,11 @@ export const ControlledDrawingCanvas = ({
   const displayCanvas = useRef(null);
 
   useEffect(() => {
-    if (!displayCanvas || !displayCanvas.current || !drawingCanvas) return;
-
+    if (!displayCanvas || !displayCanvas.current || !sourceCanvas.canvas)
+      return;
     const c = displayCanvas.current;
-    const ctx = c.getContext("2d");
-    c.width = width;
-    c.height = height;
-    // CLEAR
-    ctx.beginPath();
-    ctx.clearRect(0, 0, c.width, c.height);
-    // DRAW
-    ctx.drawImage(drawingCanvas, 0, 0);
-
-    // eslint-disable-next-line
-  }, [drawingCanvas]);
+    drawToCanvas(sourceCanvas.canvas, c);
+  }, [displayCanvas, sourceCanvas]);
 
   const onMouseDown = (e) => {
     setIsDrawing(true);
@@ -40,46 +34,22 @@ export const ControlledDrawingCanvas = ({
     const from = point ? point : newPt;
     const to = newPt;
 
-    drawLine(from, to);
+    drawLine(sourceCanvas.canvas, from, to, brushWidth);
+    setSourceCanvas({ canvas: sourceCanvas.canvas, data: Date.now() });
     setPoint(newPt);
-  };
-
-  const getPointFromMouseEvent = (e) => {
-    var rect = e.target.getBoundingClientRect();
-    var x = e.clientX - rect.left; //x position within the element.
-    var y = e.clientY - rect.top; //y position within the element.
-
-    return { x, y, lineDrawn: false };
   };
 
   const onMouseUp = () => {
     setPoint((prev) => {
-      drawLine(prev, prev);
+      drawLine(sourceCanvas.canvas, prev, prev, brushWidth);
+      setSourceCanvas({ canvas: sourceCanvas.canvas, data: Date.now() });
       return null;
     });
     setIsDrawing(false);
-    onUpdateCanvas(displayCanvas.current);
-  };
-
-  const drawLine = (from, to) => {
-    if (!drawingCanvas) return;
-    if (!from || !to) return;
-
-    const c = drawingCanvas.current;
-    const ctx = c.getContext("2d");
-    ctx.beginPath();
-
-    ctx.strokeStyle = "0";
-    ctx.moveTo(from.x, from.y);
-    ctx.lineTo(to.x, to.y);
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.lineWidth = brushWidth;
-    ctx.stroke();
   };
 
   return (
-    <displayCanvas
+    <canvas
       ref={displayCanvas}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}

@@ -61,4 +61,52 @@ export const createBrushCanvas = (sourceImg, maskImg, bounds) => {
   return canvas;
 };
 
-// CREATE BLANK CANVAS
+// DRAW ONE CANVAS TO ANOTHER
+export const drawToCanvas = (sourceCanvas, targCanvas) => {
+  // console.log("sourceCanvas: ", sourceCanvas);
+  // console.log("targCanvas: ", targCanvas);
+
+  const ctx = targCanvas.getContext("2d");
+  targCanvas.width = sourceCanvas.width;
+  targCanvas.height = sourceCanvas.height;
+  // CLEAR
+  ctx.beginPath();
+  ctx.clearRect(0, 0, targCanvas.width, targCanvas.height);
+  // DRAW
+  ctx.drawImage(sourceCanvas, 0, 0);
+};
+
+export const drawLine = (canvas, from, to, lineWidth) => {
+  if (!canvas) return;
+  if (!from || !to) return;
+
+  const ctx = canvas.getContext("2d");
+  ctx.beginPath();
+
+  ctx.strokeStyle = "0";
+  ctx.moveTo(from.x, from.y);
+  ctx.lineTo(to.x, to.y);
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.lineWidth = lineWidth;
+  ctx.stroke();
+};
+
+export const getPointFromMouseEvent = (e) => {
+  var rect = e.target.getBoundingClientRect();
+  var x = e.clientX - rect.left; //x position within the element.
+  var y = e.clientY - rect.top; //y position within the element.
+
+  return { x, y, lineDrawn: false };
+};
+
+export const createCanvasFromImage = (img) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0);
+
+  return canvas;
+};

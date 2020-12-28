@@ -4,14 +4,14 @@ export const BrushPreview = ({ brushCanvas }) => {
   const canvasRef = React.useRef(null);
 
   useEffect(() => {
-    if (!canvasRef || !canvasRef.current) return;
+    if (!canvasRef || !canvasRef.current || !brushCanvas.canvas) return;
 
     const canvas = canvasRef.current;
-    canvas.width = brushCanvas.width;
-    canvas.height = brushCanvas.height;
+    canvas.width = brushCanvas.canvas.width;
+    canvas.height = brushCanvas.canvas.height;
 
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(brushCanvas, 0, 0);
+    ctx.drawImage(brushCanvas.canvas, 0, 0);
   }, [canvasRef, brushCanvas]);
 
   return <canvas ref={canvasRef} />;
