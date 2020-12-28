@@ -4,10 +4,8 @@ import { useSampleImage } from "./hooks/useSampleImage";
 import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
 
-// pages "paint" / "makeBrush"
-
 const App = () => {
-  const [currPage, setCurrPage] = useState("makeBrush");
+  const [currPage, setCurrPage] = useState("makeBrush"); // pages "paint" / "makeBrush"
   const [brush, setBrush] = useState(null);
   const [sourceImg, setSourceImg] = useState(null);
   const [maskImg, setMaskImg] = useState(null);

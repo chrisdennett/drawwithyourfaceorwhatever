@@ -1,58 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const MaskDrawingCanvas = ({
+export const ControlledDrawingCanvas = ({
   onUpdateCanvas,
-  maskImg,
+  drawingCanvas,
   width = 200,
   height = 200,
   brushWidth = 10,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [point, setPoint] = useState(null);
-  const [isSetup, setIsSetUp] = useState(false);
-
-  const canvas = useRef(null);
+  const displayCanvas = useRef(null);
 
   useEffect(() => {
-    if (!canvas || !canvas.current) return;
+    if (!displayCanvas || !displayCanvas.current || !drawingCanvas) return;
 
-    clearCanvas();
-    setIsSetUp(true);
+    const c = displayCanvas.current;
+    const ctx = c.getContext("2d");
+    c.width = width;
+    c.height = height;
+    // CLEAR
+    ctx.beginPath();
+    ctx.clearRect(0, 0, c.width, c.height);
+    // DRAW
+    ctx.drawImage(drawingCanvas, 0, 0);
 
     // eslint-disable-next-line
-  }, [width, height]);
-
-  // useEffect(() => {
-  //   if (!canvas || !canvas.current) return;
-
-  //   if (!maskImg) clearCanvas();
-
-  //   if (isSetup) return;
-
-  //   clearCanvas();
-  //   if (maskImg) {
-  //     const c = canvas.current;
-  //     const ctx = c.getContext("2d");
-  //     ctx.drawImage(maskImg, 0, 0);
-  //   }
-
-  //   setIsSetUp(true);
-  //   // eslint-disable-next-line
-  // }, [canvas, maskImg]);
+  }, [drawingCanvas]);
 
   const onMouseDown = (e) => {
     setIsDrawing(true);
     const newPt = getPointFromMouseEvent(e);
     setPoint(newPt);
-  };
-
-  const clearCanvas = () => {
-    const c = canvas.current;
-    c.width = width;
-    c.height = height;
-    const ctx = c.getContext("2d");
-    ctx.beginPath();
-    ctx.clearRect(0, 0, c.width, c.height);
   };
 
   const onMouseMove = (e) => {
@@ -80,14 +58,14 @@ export const MaskDrawingCanvas = ({
       return null;
     });
     setIsDrawing(false);
-    onUpdateCanvas(canvas.current);
+    onUpdateCanvas(displayCanvas.current);
   };
 
   const drawLine = (from, to) => {
-    if (!canvas || !canvas.current) return;
+    if (!drawingCanvas) return;
     if (!from || !to) return;
 
-    const c = canvas.current;
+    const c = drawingCanvas.current;
     const ctx = c.getContext("2d");
     ctx.beginPath();
 
@@ -100,11 +78,9 @@ export const MaskDrawingCanvas = ({
     ctx.stroke();
   };
 
-  //<button onClick={clearCanvas}>CLEAR</button>
-
   return (
-    <canvas
-      ref={canvas}
+    <displayCanvas
+      ref={displayCanvas}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseOut={onMouseUp}
