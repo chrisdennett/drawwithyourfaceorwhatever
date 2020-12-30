@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  drawBrush,
   drawLine,
   drawToCanvas,
   getPointFromMouseEvent,
@@ -9,6 +10,7 @@ export const ControlledDrawingCanvas = ({
   sourceCanvas,
   setSourceCanvas,
   brushWidth = 10,
+  brush,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [point, setPoint] = useState(null);
@@ -34,15 +36,28 @@ export const ControlledDrawingCanvas = ({
     const from = point ? point : newPt;
     const to = newPt;
 
-    drawLine(sourceCanvas.canvas, from, to, brushWidth);
-    setSourceCanvas({ canvas: sourceCanvas.canvas, data: Date.now() });
+    if (brush) {
+      drawBrush(sourceCanvas.canvas, brush, to, brushWidth);
+    } else {
+      drawLine(sourceCanvas.canvas, from, to, brushWidth);
+    }
+
+    setSourceCanvas((prev) => {
+      return { canvas: sourceCanvas.canvas, data: prev.data + 1 };
+    });
     setPoint(newPt);
   };
 
   const onMouseUp = () => {
     setPoint((prev) => {
-      drawLine(sourceCanvas.canvas, prev, prev, brushWidth);
-      setSourceCanvas({ canvas: sourceCanvas.canvas, data: Date.now() });
+      if (brush) {
+        drawBrush(sourceCanvas.canvas, brush, prev, brushWidth);
+      } else {
+        drawLine(sourceCanvas.canvas, prev, prev, brushWidth);
+      }
+      setSourceCanvas((prev) => {
+        return { canvas: sourceCanvas.canvas, data: prev.data + 1 };
+      });
       return null;
     });
     setIsDrawing(false);

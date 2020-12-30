@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { createBrushCanvas, createCanvasFromImage } from "./helpers/helpers";
+import {
+  createBrushCanvas,
+  createCanvasFromImage,
+  getClearCanvas,
+} from "./helpers/helpers";
 import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
 
 const App = () => {
-  const [currPage, setCurrPage] = useState("makeBrush"); // pages "paint" / "makeBrush"
+  const [currPage, setCurrPage] = useState("paint"); // pages "paint" / "makeBrush"
   const [brush, setBrush] = useState({ data: 0, canvas: null });
   const [sourceImg, setSourceImg] = useState({ data: 0, canvas: null });
   const [maskImg, setMaskImg] = useState({ data: 0, canvas: null });
@@ -50,6 +54,17 @@ const App = () => {
     });
   }, [sourceImg.data, maskImg.data]);
 
+  useEffect(() => {
+    if (!painting.canvas) {
+      setPainting((prev) => {
+        return {
+          canvas: getClearCanvas(window.innerWidth, window.innerHeight - 160),
+          data: prev.data + 1,
+        };
+      });
+    }
+  }, []);
+
   const showPaintPage = () => setCurrPage("paint");
   const showMakeBrushPage = () => setCurrPage("makeBrush");
 
@@ -59,7 +74,7 @@ const App = () => {
         {currPage === "paint" && (
           <PaintingCanvas
             painting={painting}
-            onUpdateCanvas={setPainting}
+            setPainting={setPainting}
             brush={brush}
             showMakeBrushPage={showMakeBrushPage}
           />

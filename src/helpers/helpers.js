@@ -63,14 +63,10 @@ export const createBrushCanvas = (sourceImg, maskImg, bounds) => {
 
 // DRAW ONE CANVAS TO ANOTHER
 export const drawToCanvas = (sourceCanvas, targCanvas) => {
-  // console.log("sourceCanvas: ", sourceCanvas);
-  // console.log("targCanvas: ", targCanvas);
-
   const ctx = targCanvas.getContext("2d");
   targCanvas.width = sourceCanvas.width;
   targCanvas.height = sourceCanvas.height;
 
-  console.log("targCanvas.width: ", targCanvas.width);
   // CLEAR
   ctx.beginPath();
   ctx.clearRect(0, 0, targCanvas.width, targCanvas.height);
@@ -92,6 +88,30 @@ export const drawLine = (canvas, from, to, lineWidth) => {
   ctx.lineJoin = "round";
   ctx.lineWidth = lineWidth;
   ctx.stroke();
+};
+
+export const drawBrush = (canvas, brush, pos, brushSize) => {
+  if (!brush || !pos || !canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const { width, height } = brush.canvas;
+  const brushW = brushSize;
+  const brushH = brushSize;
+
+  const halfW = brushW / 2;
+  const halfH = brushH / 2;
+
+  ctx.drawImage(
+    brush.canvas,
+    0,
+    0,
+    width,
+    height,
+    pos.x - halfW,
+    pos.y - halfH,
+    brushW,
+    brushH
+  );
 };
 
 export const getPointFromMouseEvent = (e) => {
