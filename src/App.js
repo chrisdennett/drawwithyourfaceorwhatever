@@ -58,7 +58,7 @@ const App = () => {
     setBrush((prev) => {
       return { canvas: trimmedCanvas, data: prev.data + 1 };
     });
-  }, [brushImgObj.data, maskImgObj.data]);
+  }, [brushImgObj, maskImgObj]);
 
   useEffect(() => {
     if (!painting.canvas) {
@@ -74,13 +74,31 @@ const App = () => {
   const showPaintPage = () => setCurrPage("paint");
   const showMakeBrushPage = () => setCurrPage("makeBrush");
 
+  const onBrushImgChange = (canvas) => {
+    setBrushImgObj((prev) => {
+      return { canvas: canvas, data: prev.data + 1 };
+    });
+  };
+
+  const onMaskImgObjChange = (canvas) => {
+    setMaskImgObj((prev) => {
+      return { canvas: canvas, data: prev.data + 1 };
+    });
+  };
+
+  const onPaintingUpdate = (canvas) => {
+    setPainting((prev) => {
+      return { canvas: canvas, data: prev.data + 1 };
+    });
+  };
+
   return (
     <Page>
       <main>
         {currPage === "paint" && (
           <PaintingCanvas
             painting={painting}
-            setPainting={setPainting}
+            setPainting={onPaintingUpdate}
             brush={brush}
             showMakeBrushPage={showMakeBrushPage}
           />
@@ -89,9 +107,9 @@ const App = () => {
         {currPage === "makeBrush" && (
           <BrushMaker
             brushImgObj={brushImgObj}
-            setBrushImgObj={setBrushImgObj}
+            setBrushImgObj={onBrushImgChange}
             maskImgObj={maskImgObj}
-            setMaskImgObj={setMaskImgObj}
+            setMaskImgObj={onMaskImgObjChange}
             showPaintPage={showPaintPage}
             brush={brush}
           />

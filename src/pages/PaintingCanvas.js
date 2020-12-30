@@ -9,11 +9,11 @@ export const PaintingCanvas = ({
   brush,
   showMakeBrushPage,
 }) => {
-  const clearPainting = () =>
-    setPainting((prev) => {
-      const { width, height } = prev.canvas;
-      return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
-    });
+  const clearPainting = () => {
+    const w = painting.canvas.width;
+    const h = painting.canvas.height;
+    setPainting(getClearCanvas(w, h));
+  };
 
   return (
     <div>

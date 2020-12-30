@@ -14,21 +14,15 @@ export const BrushMaker = ({
   showPaintPage,
   brush,
 }) => {
-  const clearMask = () =>
-    setMaskImgObj((prev) => {
-      const { width, height } = prev.canvas;
-      return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
-    });
+  const clearMask = () => {
+    const w = maskImgObj.canvas.width;
+    const h = maskImgObj.canvas.height;
+    setMaskImgObj(getClearCanvas(w, h));
+  };
 
   const onPhotoSelected = (img) => {
-    setBrushImgObj((prev) => {
-      return { canvas: img, data: prev.data + 1 };
-    });
-
-    setMaskImgObj((prev) => {
-      const { width, height } = img;
-      return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
-    });
+    setBrushImgObj(img);
+    setMaskImgObj(getClearCanvas(img.width, img.height));
   };
 
   return (

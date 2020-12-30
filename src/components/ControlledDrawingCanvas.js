@@ -42,9 +42,7 @@ export const ControlledDrawingCanvas = ({
       drawLine(sourceCanvas.canvas, from, to, brushWidth);
     }
 
-    setSourceCanvas((prev) => {
-      return { canvas: sourceCanvas.canvas, data: prev.data + 1 };
-    });
+    setSourceCanvas(sourceCanvas.canvas);
     setPoint(newPt);
   };
 
@@ -55,9 +53,8 @@ export const ControlledDrawingCanvas = ({
       } else {
         drawLine(sourceCanvas.canvas, prev, prev, brushWidth);
       }
-      setSourceCanvas((prev) => {
-        return { canvas: sourceCanvas.canvas, data: prev.data + 1 };
-      });
+
+      setSourceCanvas(sourceCanvas.canvas);
       return null;
     });
     setIsDrawing(false);

@@ -63,6 +63,8 @@ export const createBrushCanvas = (sourceImg, maskImg, bounds) => {
 
 // DRAW ONE CANVAS TO ANOTHER
 export const drawToCanvas = (sourceCanvas, targCanvas) => {
+  if (!sourceCanvas || !targCanvas) return;
+
   const ctx = targCanvas.getContext("2d");
   targCanvas.width = sourceCanvas.width;
   targCanvas.height = sourceCanvas.height;
@@ -95,8 +97,9 @@ export const drawBrush = (canvas, brush, pos, brushSize) => {
 
   const ctx = canvas.getContext("2d");
   const { width, height } = brush.canvas;
+  const widthToHeightRatio = height / width;
   const brushW = brushSize;
-  const brushH = brushSize;
+  const brushH = brushSize * widthToHeightRatio;
 
   const halfW = brushW / 2;
   const halfH = brushH / 2;
