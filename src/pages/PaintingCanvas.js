@@ -4,8 +4,8 @@ import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
 
 export const PaintingCanvas = ({
-  setPainting,
   painting,
+  setPainting,
   brush,
   showMakeBrushPage,
 }) => {

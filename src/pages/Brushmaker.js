@@ -3,17 +3,16 @@ import styled from "styled-components";
 import { BrushPreview } from "../components/BrushPreview";
 import PhotoSelector from "../components/PhotoSelector";
 import { PhotoCanvas } from "../components/PhotoCanvas";
-// import { MaskDrawingCanvas } from "../components/MaskDrawingCanvas";
 import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
 
 export const BrushMaker = ({
-  showPaintPage,
-  brush,
-  setSourceImg,
   sourceImg,
+  setSourceImg,
   maskImg,
   setMaskImg,
+  showPaintPage,
+  brush,
 }) => {
   const clearMask = () =>
     setMaskImg((prev) => {
@@ -48,8 +47,8 @@ export const BrushMaker = ({
           <PhotoCanvas photo={sourceImg} />
           <ControlledDrawingCanvas
             sourceCanvas={maskImg}
-            brushWidth={30}
             setSourceCanvas={setMaskImg}
+            brushWidth={30}
           />
         </CanvasHolder>
       )}

@@ -4,6 +4,7 @@ import {
   createBrushCanvas,
   createCanvasFromImage,
   getClearCanvas,
+  getTrimmedCanvas,
 } from "./helpers/helpers";
 import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
@@ -49,8 +50,10 @@ const App = () => {
     if (!sourceImg.canvas || !maskImg.canvas) return;
 
     const brushCanvas = createBrushCanvas(sourceImg.canvas, maskImg.canvas);
+    const trimmedCanvas = getTrimmedCanvas(brushCanvas);
+
     setBrush((prev) => {
-      return { canvas: brushCanvas, data: prev.data + 1 };
+      return { canvas: trimmedCanvas, data: prev.data + 1 };
     });
   }, [sourceImg.data, maskImg.data]);
 
@@ -84,10 +87,9 @@ const App = () => {
           <BrushMaker
             sourceImg={sourceImg}
             setSourceImg={setSourceImg}
-            setMaskImg={setMaskImg}
             maskImg={maskImg}
+            setMaskImg={setMaskImg}
             showPaintPage={showPaintPage}
-            setBrush={setBrush}
             brush={brush}
           />
         )}
