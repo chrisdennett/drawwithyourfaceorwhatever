@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import styled from "styled-components";
 import {
   createBrushCanvas,
@@ -70,7 +71,7 @@ const App = () => {
         };
       });
     }
-  }, []);
+  }, [painting.canvas]);
 
   const showPaintPage = () => setCurrPage("paint");
   const showMakeBrushPage = () => setCurrPage("makeBrush");
@@ -92,6 +93,18 @@ const App = () => {
       return { canvas: canvas, data: prev.data + 1 };
     });
   };
+
+  useHotkeys("up", () => {
+    if (currPage === "paint") {
+      setPaintBrushSize((prev) => prev + 1);
+    }
+  });
+
+  useHotkeys("down", () => {
+    if (currPage === "paint") {
+      setPaintBrushSize((prev) => prev - 1);
+    }
+  });
 
   return (
     <Page>

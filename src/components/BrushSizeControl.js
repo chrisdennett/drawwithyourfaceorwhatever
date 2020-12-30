@@ -3,9 +3,12 @@ import ReactSlider from "react-slider";
 import styled from "styled-components";
 
 export const BrushSizeControl = ({ value, onChange }) => {
+  const onIncrease = () => onChange(value + 1);
+  const onDecrease = () => onChange(value - 1);
+
   return (
     <div>
-      <h1>BrushSizeControl</h1>
+      <button onClick={onIncrease}>UP</button>
       <StyledSlider
         value={value}
         onChange={onChange}
@@ -14,6 +17,7 @@ export const BrushSizeControl = ({ value, onChange }) => {
         min={5}
         max={500}
       />
+      <button onClick={onDecrease}>DOWN</button>
     </div>
   );
 };
