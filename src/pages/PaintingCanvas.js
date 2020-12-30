@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { BrushSizeControl } from "../components/BrushSizeControl";
 import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
 
@@ -8,6 +9,8 @@ export const PaintingCanvas = ({
   onUpdate,
   brush,
   showMakeBrushPage,
+  brushSize,
+  onBrushSizeChange,
 }) => {
   const clearPainting = () => {
     const w = painting.canvas.width;
@@ -21,13 +24,14 @@ export const PaintingCanvas = ({
         <h1>Paintwithyourfaceorwhatever</h1>
         <button onClick={clearPainting}>CLEAR</button>
         <button onClick={showMakeBrushPage}>Edit Brush</button>
+        <BrushSizeControl value={brushSize} onChange={onBrushSizeChange} />
       </TopBar>
 
       <ControlledDrawingCanvas
         sourceCanvas={painting}
         setSourceCanvas={onUpdate}
         brush={brush}
-        brushWidth={30}
+        brushWidth={brushSize}
       />
     </div>
   );

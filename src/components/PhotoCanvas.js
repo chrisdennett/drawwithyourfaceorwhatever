@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-export const PhotoCanvas = ({ photo }) => {
+export const PhotoCanvas = ({ photo, className }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -14,5 +14,5 @@ export const PhotoCanvas = ({ photo }) => {
     ctx.drawImage(photo.canvas, 0, 0);
   }, [canvasRef, photo]);
 
-  return <canvas ref={canvasRef} />;
+  return <canvas ref={canvasRef} className={className} />;
 };

@@ -11,6 +11,7 @@ export const ControlledDrawingCanvas = ({
   setSourceCanvas,
   brushWidth = 10,
   brush,
+  className,
 }) => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [point, setPoint] = useState(null);
@@ -66,6 +67,7 @@ export const ControlledDrawingCanvas = ({
       onMouseMove={onMouseMove}
       onMouseOut={onMouseUp}
       onMouseUp={onMouseUp}
+      className={className}
     />
   );
 };

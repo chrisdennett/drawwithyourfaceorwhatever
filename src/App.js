@@ -15,6 +15,7 @@ const App = () => {
   const [brushImgObj, setBrushImgObj] = useState({ data: 0, canvas: null });
   const [maskImgObj, setMaskImgObj] = useState({ data: 0, canvas: null });
   const [painting, setPainting] = useState({ data: 0, canvas: null });
+  const [paintBrushSize, setPaintBrushSize] = useState(30);
 
   // LOAD SAMPLE IMAGE FOR BRUSH SOURCE
   useEffect(() => {
@@ -101,6 +102,8 @@ const App = () => {
             onUpdate={onPaintingUpdate}
             brush={brush}
             showMakeBrushPage={showMakeBrushPage}
+            brushSize={paintBrushSize}
+            onBrushSizeChange={setPaintBrushSize}
           />
         )}
 
@@ -123,8 +126,5 @@ export default App;
 
 const Page = styled.div`
   background: whitesmoke;
-
-  canvas {
-    border: 1px solid black;
-  }
+  min-height: 100vh;
 `;
