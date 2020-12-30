@@ -5,14 +5,14 @@ import { getClearCanvas } from "../helpers/helpers";
 
 export const PaintingCanvas = ({
   painting,
-  setPainting,
+  onUpdate,
   brush,
   showMakeBrushPage,
 }) => {
   const clearPainting = () => {
     const w = painting.canvas.width;
     const h = painting.canvas.height;
-    setPainting(getClearCanvas(w, h));
+    onUpdate(getClearCanvas(w, h));
   };
 
   return (
@@ -25,7 +25,7 @@ export const PaintingCanvas = ({
 
       <ControlledDrawingCanvas
         sourceCanvas={painting}
-        setSourceCanvas={setPainting}
+        setSourceCanvas={onUpdate}
         brush={brush}
         brushWidth={30}
       />

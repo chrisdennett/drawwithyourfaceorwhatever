@@ -98,7 +98,7 @@ const App = () => {
         {currPage === "paint" && (
           <PaintingCanvas
             painting={painting}
-            setPainting={onPaintingUpdate}
+            onUpdate={onPaintingUpdate}
             brush={brush}
             showMakeBrushPage={showMakeBrushPage}
           />
@@ -107,9 +107,9 @@ const App = () => {
         {currPage === "makeBrush" && (
           <BrushMaker
             brushImgObj={brushImgObj}
-            setBrushImgObj={onBrushImgChange}
+            onUpdate={onBrushImgChange}
             maskImgObj={maskImgObj}
-            setMaskImgObj={onMaskImgObjChange}
+            onMaskUpdate={onMaskImgObjChange}
             showPaintPage={showPaintPage}
             brush={brush}
           />

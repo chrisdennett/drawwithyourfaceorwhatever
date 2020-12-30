@@ -8,21 +8,21 @@ import { getClearCanvas } from "../helpers/helpers";
 
 export const BrushMaker = ({
   brushImgObj,
-  setBrushImgObj,
+  onUpdate,
   maskImgObj,
-  setMaskImgObj,
+  onMaskUpdate,
   showPaintPage,
   brush,
 }) => {
   const clearMask = () => {
     const w = maskImgObj.canvas.width;
     const h = maskImgObj.canvas.height;
-    setMaskImgObj(getClearCanvas(w, h));
+    onMaskUpdate(getClearCanvas(w, h));
   };
 
   const onPhotoSelected = (img) => {
-    setBrushImgObj(img);
-    setMaskImgObj(getClearCanvas(img.width, img.height));
+    onUpdate(img);
+    onMaskUpdate(getClearCanvas(img.width, img.height));
   };
 
   return (
@@ -41,7 +41,7 @@ export const BrushMaker = ({
           <PhotoCanvas photo={brushImgObj} />
           <ControlledDrawingCanvas
             sourceCanvas={maskImgObj}
-            setSourceCanvas={setMaskImgObj}
+            setSourceCanvas={onMaskUpdate}
             brushWidth={30}
           />
         </CanvasHolder>
