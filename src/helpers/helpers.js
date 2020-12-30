@@ -162,11 +162,6 @@ export const getTrimmedCanvas = (canvas) => {
   )
     --right;
 
-  console.log("top: ", top);
-  console.log("left: ", left);
-  console.log("right: ", right);
-  console.log("bottom: ", bottom);
-
   // bail if the canvas is blank
   if (top === bottom || left === right) return canvas;
 

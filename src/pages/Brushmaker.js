@@ -7,25 +7,25 @@ import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
 
 export const BrushMaker = ({
-  sourceImg,
-  setSourceImg,
-  maskImg,
-  setMaskImg,
+  brushImgObj,
+  setBrushImgObj,
+  maskImgObj,
+  setMaskImgObj,
   showPaintPage,
   brush,
 }) => {
   const clearMask = () =>
-    setMaskImg((prev) => {
+    setMaskImgObj((prev) => {
       const { width, height } = prev.canvas;
       return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
     });
 
   const onPhotoSelected = (img) => {
-    setSourceImg((prev) => {
+    setBrushImgObj((prev) => {
       return { canvas: img, data: prev.data + 1 };
     });
 
-    setMaskImg((prev) => {
+    setMaskImgObj((prev) => {
       const { width, height } = img;
       return { canvas: getClearCanvas(width, height), data: prev.data + 1 };
     });
@@ -40,14 +40,14 @@ export const BrushMaker = ({
         <PhotoSelector onPhotoSelected={onPhotoSelected} />
       </TopBar>
 
-      {sourceImg && (
+      {brushImgObj && (
         <CanvasHolder
-          style={{ width: sourceImg.width, height: sourceImg.height }}
+          style={{ width: brushImgObj.width, height: brushImgObj.height }}
         >
-          <PhotoCanvas photo={sourceImg} />
+          <PhotoCanvas photo={brushImgObj} />
           <ControlledDrawingCanvas
-            sourceCanvas={maskImg}
-            setSourceCanvas={setMaskImg}
+            sourceCanvas={maskImgObj}
+            setSourceCanvas={setMaskImgObj}
             brushWidth={30}
           />
         </CanvasHolder>

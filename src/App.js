@@ -12,18 +12,18 @@ import { PaintingCanvas } from "./pages/PaintingCanvas";
 const App = () => {
   const [currPage, setCurrPage] = useState("paint"); // pages "paint" / "makeBrush"
   const [brush, setBrush] = useState({ data: 0, canvas: null });
-  const [sourceImg, setSourceImg] = useState({ data: 0, canvas: null });
-  const [maskImg, setMaskImg] = useState({ data: 0, canvas: null });
+  const [brushImgObj, setBrushImgObj] = useState({ data: 0, canvas: null });
+  const [maskImgObj, setMaskImgObj] = useState({ data: 0, canvas: null });
   const [painting, setPainting] = useState({ data: 0, canvas: null });
 
   // LOAD SAMPLE IMAGE FOR BRUSH SOURCE
   useEffect(() => {
-    if (!sourceImg.canvas) {
+    if (!brushImgObj.canvas) {
       const image = new Image();
       image.crossOrigin = "Anonymous";
       image.onload = () => {
         const canvas = createCanvasFromImage(image);
-        setSourceImg((prev) => {
+        setBrushImgObj((prev) => {
           return { canvas, data: prev.data + 1 };
         });
       };
@@ -33,12 +33,12 @@ const App = () => {
 
   // LOAD SAMPLE IMAGE FOR MASK
   useEffect(() => {
-    if (!maskImg.canvas) {
+    if (!maskImgObj.canvas) {
       const image = new Image();
       image.crossOrigin = "Anonymous";
       image.onload = () => {
         const canvas = createCanvasFromImage(image);
-        setMaskImg((prev) => {
+        setMaskImgObj((prev) => {
           return { canvas, data: prev.data + 1 };
         });
       };
@@ -47,15 +47,18 @@ const App = () => {
   });
 
   useEffect(() => {
-    if (!sourceImg.canvas || !maskImg.canvas) return;
+    if (!brushImgObj.canvas || !maskImgObj.canvas) return;
 
-    const brushCanvas = createBrushCanvas(sourceImg.canvas, maskImg.canvas);
+    const brushCanvas = createBrushCanvas(
+      brushImgObj.canvas,
+      maskImgObj.canvas
+    );
     const trimmedCanvas = getTrimmedCanvas(brushCanvas);
 
     setBrush((prev) => {
       return { canvas: trimmedCanvas, data: prev.data + 1 };
     });
-  }, [sourceImg.data, maskImg.data]);
+  }, [brushImgObj.data, maskImgObj.data]);
 
   useEffect(() => {
     if (!painting.canvas) {
@@ -85,10 +88,10 @@ const App = () => {
 
         {currPage === "makeBrush" && (
           <BrushMaker
-            sourceImg={sourceImg}
-            setSourceImg={setSourceImg}
-            maskImg={maskImg}
-            setMaskImg={setMaskImg}
+            brushImgObj={brushImgObj}
+            setBrushImgObj={setBrushImgObj}
+            maskImgObj={maskImgObj}
+            setMaskImgObj={setMaskImgObj}
             showPaintPage={showPaintPage}
             brush={brush}
           />
