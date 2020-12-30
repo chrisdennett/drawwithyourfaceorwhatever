@@ -5,6 +5,8 @@ import PhotoSelector from "../components/PhotoSelector";
 import { PhotoCanvas } from "../components/PhotoCanvas";
 import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
+import { BrushSizeControl } from "../components/BrushSizeControl";
+import { useKeyPress } from "../hooks/useKeyPress";
 
 export const BrushMaker = ({
   brushImgObj,
@@ -13,6 +15,10 @@ export const BrushMaker = ({
   onMaskUpdate,
   showPaintPage,
   brush,
+  maskBrushSize,
+  onMaskBrushSizeChange,
+  increaseMaskBrushSize,
+  reduceMaskBrushSize,
 }) => {
   const clearMask = () => {
     const w = maskImgObj.canvas.width;
@@ -33,6 +39,9 @@ export const BrushMaker = ({
         }
       : {};
 
+  useKeyPress("ArrowUp", () => increaseMaskBrushSize());
+  useKeyPress("ArrowDown", () => reduceMaskBrushSize());
+
   return (
     <Page>
       <TopBar>
@@ -40,6 +49,10 @@ export const BrushMaker = ({
         <button onClick={showPaintPage}>GetPainting</button>
         <button onClick={clearMask}>Clear</button>
         <PhotoSelector onPhotoSelected={onPhotoSelected} />
+        <BrushSizeControl
+          value={maskBrushSize}
+          onChange={onMaskBrushSizeChange}
+        />
       </TopBar>
 
       <Content>
@@ -48,9 +61,10 @@ export const BrushMaker = ({
             <h3>Draw over photo or whatever</h3>
             <StyledPhotoCanvas photo={brushImgObj} />
             <StyledControlledDrawingCanvas
+              brushSi
               sourceCanvas={maskImgObj}
               setSourceCanvas={onMaskUpdate}
-              brushWidth={30}
+              brushWidth={maskBrushSize}
             />
           </CanvasHolder>
         )}

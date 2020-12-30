@@ -1,8 +1,10 @@
 import React from "react";
+// import { useHotkeys } from "react-hotkeys-hook";
 import styled from "styled-components";
 import { BrushSizeControl } from "../components/BrushSizeControl";
 import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
+import { useKeyPress } from "../hooks/useKeyPress";
 
 export const PaintingCanvas = ({
   painting,
@@ -11,12 +13,17 @@ export const PaintingCanvas = ({
   showMakeBrushPage,
   brushSize,
   onBrushSizeChange,
+  reducePaintBrushSize,
+  increasePaintBrushSize,
 }) => {
   const clearPainting = () => {
     const w = painting.canvas.width;
     const h = painting.canvas.height;
     onUpdate(getClearCanvas(w, h));
   };
+
+  useKeyPress("ArrowUp", () => increasePaintBrushSize());
+  useKeyPress("ArrowDown", () => reducePaintBrushSize());
 
   return (
     <div>

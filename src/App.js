@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import styled from "styled-components";
 import {
   createBrushCanvas,
@@ -11,12 +10,13 @@ import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
 
 const App = () => {
-  const [currPage, setCurrPage] = useState("paint"); // pages "paint" / "makeBrush"
+  const [currPage, setCurrPage] = useState("makeBrush"); // pages "paint" / "makeBrush"
   const [brush, setBrush] = useState({ data: 0, canvas: null });
   const [brushImgObj, setBrushImgObj] = useState({ data: 0, canvas: null });
   const [maskImgObj, setMaskImgObj] = useState({ data: 0, canvas: null });
   const [painting, setPainting] = useState({ data: 0, canvas: null });
   const [paintBrushSize, setPaintBrushSize] = useState(30);
+  const [maskBrushSize, setMaskBrushSize] = useState(20);
 
   // LOAD SAMPLE IMAGE FOR BRUSH SOURCE
   useEffect(() => {
@@ -94,23 +94,18 @@ const App = () => {
     });
   };
 
-  useHotkeys("up", () => {
-    if (currPage === "paint") {
-      setPaintBrushSize((prev) => prev + 1);
-    }
-  });
-
-  useHotkeys("down", () => {
-    if (currPage === "paint") {
-      setPaintBrushSize((prev) => prev - 1);
-    }
-  });
+  const reducePaintBrushSize = () => setPaintBrushSize((prev) => prev - 1);
+  const increasePaintBrushSize = () => setPaintBrushSize((prev) => prev + 1);
+  const reduceMaskBrushSize = () => setMaskBrushSize((prev) => prev - 1);
+  const increaseMaskBrushSize = () => setMaskBrushSize((prev) => prev + 1);
 
   return (
     <Page>
       <main>
         {currPage === "paint" && (
           <PaintingCanvas
+            reducePaintBrushSize={reducePaintBrushSize}
+            increasePaintBrushSize={increasePaintBrushSize}
             painting={painting}
             onUpdate={onPaintingUpdate}
             brush={brush}
@@ -122,12 +117,16 @@ const App = () => {
 
         {currPage === "makeBrush" && (
           <BrushMaker
+            reduceMaskBrushSize={reduceMaskBrushSize}
+            increaseMaskBrushSize={increaseMaskBrushSize}
             brushImgObj={brushImgObj}
             onUpdate={onBrushImgChange}
             maskImgObj={maskImgObj}
             onMaskUpdate={onMaskImgObjChange}
             showPaintPage={showPaintPage}
             brush={brush}
+            maskBrushSize={maskBrushSize}
+            onMaskBrushSizeChange={setMaskBrushSize}
           />
         )}
       </main>
