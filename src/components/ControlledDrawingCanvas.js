@@ -53,10 +53,9 @@ export const ControlledDrawingCanvas = ({
       } else {
         drawLine(sourceCanvas.canvas, prev, prev, brushWidth);
       }
-
-      setSourceCanvas(sourceCanvas.canvas);
       return null;
     });
+    setSourceCanvas(sourceCanvas.canvas);
     setIsDrawing(false);
   };
 
