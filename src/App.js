@@ -10,13 +10,13 @@ import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
 
 const App = () => {
-  const [currPage, setCurrPage] = useState("makeBrush"); // pages "paint" / "makeBrush"
+  const [currPage, setCurrPage] = useState("paint"); // pages "paint" / "makeBrush"
   const [brush, setBrush] = useState({ data: 0, canvas: null });
   const [brushImgObj, setBrushImgObj] = useState({ data: 0, canvas: null });
   const [maskImgObj, setMaskImgObj] = useState({ data: 0, canvas: null });
   const [painting, setPainting] = useState({ data: 0, canvas: null });
-  const [paintBrushSize, setPaintBrushSize] = useState(30);
-  const [maskBrushSize, setMaskBrushSize] = useState(20);
+  const [paintBrushSize, setPaintBrushSize] = useState(80);
+  const [maskBrushSize, setMaskBrushSize] = useState(30);
 
   // LOAD SAMPLE IMAGE FOR BRUSH SOURCE
   useEffect(() => {
@@ -66,7 +66,10 @@ const App = () => {
     if (!painting.canvas) {
       setPainting((prev) => {
         return {
-          canvas: getClearCanvas(window.innerWidth, window.innerHeight - 160),
+          canvas: getClearCanvas(
+            window.innerWidth - 60,
+            window.innerHeight - 200
+          ),
           data: prev.data + 1,
         };
       });
@@ -101,6 +104,15 @@ const App = () => {
 
   return (
     <Page>
+      <TopBar>
+        <Tab onClick={showPaintPage} isSelected={currPage === "paint"}>
+          Paint-with-your-face-or-whatever
+        </Tab>
+        <Tab onClick={showMakeBrushPage} isSelected={currPage === "makeBrush"}>
+          Make-brush-from-your-face-or-whatever
+        </Tab>
+      </TopBar>
+
       <main>
         {currPage === "paint" && (
           <PaintingCanvas
@@ -139,4 +151,37 @@ export default App;
 const Page = styled.div`
   background: whitesmoke;
   min-height: 100vh;
+`;
+
+const TopBar = styled.div`
+  height: 60px;
+  display: flex;
+`;
+
+const Tab = styled.button`
+  flex: 1;
+  font-size: 130%;
+  border: none;
+  border-bottom: 1px solid #333;
+  background: ${(props) => (props.isSelected ? "#333" : "whitesmoke")};
+  color: ${(props) => (props.isSelected ? "#fff" : "#333")};
+  position: relative;
+  border-radius: 0;
+  outline: none;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.65)
+
+  :after {
+    display: ${(props) => (props.isSelected ? "block" : "none")};
+    content: "";
+    position: absolute;
+    top: 58px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-top: 10px solid #333;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+  }
 `;

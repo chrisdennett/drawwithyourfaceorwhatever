@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { BrushPreview } from "../components/BrushPreview";
 import PhotoSelector from "../components/PhotoSelector";
@@ -7,6 +7,7 @@ import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { getClearCanvas } from "../helpers/helpers";
 import { BrushSizeControl } from "../components/BrushSizeControl";
 import { useKeyPress } from "../hooks/useKeyPress";
+import { MouseFollower } from "../components/MouseFollower";
 
 export const BrushMaker = ({
   brushImgObj,
@@ -20,6 +21,8 @@ export const BrushMaker = ({
   increaseMaskBrushSize,
   reduceMaskBrushSize,
 }) => {
+  const [mousePos, setMousePos] = useState(null);
+
   const clearMask = () => {
     const w = maskImgObj.canvas.width;
     const h = maskImgObj.canvas.height;
@@ -42,18 +45,23 @@ export const BrushMaker = ({
   useKeyPress("ArrowUp", () => increaseMaskBrushSize());
   useKeyPress("ArrowDown", () => reduceMaskBrushSize());
 
+  const onMouseMove = (e) => {
+    const pt = { x: e.clientX, y: e.clientY };
+    setMousePos(pt);
+  };
+
   return (
-    <Page>
-      <TopBar>
-        <h1>Makeabrushfromyourfaceorwhatever...</h1>
-        <button onClick={showPaintPage}>GetPainting</button>
+    <Page onMouseMove={onMouseMove}>
+      <MouseFollower pos={mousePos} size={maskBrushSize} />
+
+      <Controls>
         <button onClick={clearMask}>Clear</button>
         <PhotoSelector onPhotoSelected={onPhotoSelected} />
         <BrushSizeControl
           value={maskBrushSize}
           onChange={onMaskBrushSizeChange}
         />
-      </TopBar>
+      </Controls>
 
       <Content>
         {brushImgObj && (
@@ -98,8 +106,8 @@ const Content = styled.div`
   display: flex;
 `;
 
-const TopBar = styled.div`
-  height: 160px;
+const Controls = styled.div`
+  height: 100px;
   padding: 10px;
 `;
 
