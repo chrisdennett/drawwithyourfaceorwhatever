@@ -4,7 +4,6 @@ import {
   createBrushCanvas,
   createCanvasFromImage,
   getBlankCanvas,
-  getClearCanvas,
   getTrimmedCanvas,
 } from "./helpers/helpers";
 import { BrushMaker } from "./pages/Brushmaker";
@@ -12,7 +11,7 @@ import { PaintingCanvas } from "./pages/PaintingCanvas";
 import background from "./img/notebook-dark-bg.png";
 
 const App = () => {
-  const [currPage, setCurrPage] = useState("paint"); // pages "paint" / "makeBrush"
+  const [currPage, setCurrPage] = useState("makeBrush"); // "paint"/"makeBrush"
   const [brush, setBrush] = useState({ data: 0, canvas: null });
   const [brushImgObj, setBrushImgObj] = useState({ data: 0, canvas: null });
   const [maskImgObj, setMaskImgObj] = useState({ data: 0, canvas: null });
@@ -72,7 +71,7 @@ const App = () => {
         return {
           canvas: getBlankCanvas(
             window.innerWidth - 60,
-            window.innerHeight - 140
+            window.innerHeight - 180
           ),
           data: prev.data + 1,
         };
@@ -163,6 +162,7 @@ const TopBar = styled.div`
 `;
 
 const Tab = styled.button`
+  cursor: pointer;
   flex: 1;
   text-transform: uppercase;
   font-size: 130%;

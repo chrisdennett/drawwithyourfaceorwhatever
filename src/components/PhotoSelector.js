@@ -34,13 +34,24 @@ const PhotoSelector = ({ onPhotoSelected, children }) => {
       />
 
       <label htmlFor={"photo-selector"}>
-        {children ? children : <button>add photo</button>}
+        {children ? children : <AddPhotoBetter>add photo</AddPhotoBetter>}
       </label>
     </Holder>
   );
 };
 
 export default PhotoSelector;
+
+const AddPhotoBetter = styled.button`
+  text-transform: uppercase;
+  margin-right: 20px;
+  padding: 20px 10px;
+  background: #3977b7;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+`;
 
 const Holder = styled.div`
   display: inline-block;

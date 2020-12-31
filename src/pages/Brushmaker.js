@@ -55,7 +55,7 @@ export const BrushMaker = ({
       <MouseFollower pos={mousePos} size={maskBrushSize} />
 
       <Controls>
-        <button onClick={clearMask}>Clear</button>
+        <ClearButton onClick={clearMask}>RESET</ClearButton>
         <PhotoSelector onPhotoSelected={onPhotoSelected} />
         <BrushSizeControl
           value={maskBrushSize}
@@ -90,6 +90,16 @@ export const BrushMaker = ({
   );
 };
 
+const ClearButton = styled.button`
+  margin: 0 15px;
+  padding: 20px 10px;
+  background: #b92525;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+`;
+
 const CenteredHolder = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,8 +119,9 @@ const Controls = styled.div`
   min-width: 400px;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  margin-bottom: 20px;
 `;
 
 const Content = styled.div`
