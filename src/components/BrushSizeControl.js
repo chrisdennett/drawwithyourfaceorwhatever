@@ -9,7 +9,9 @@ export const BrushSizeControl = ({ value, onChange }) => {
 
   return (
     <Outer>
-      <h3>BRUSH SIZE: </h3>
+      <h3>
+        BRUSH SIZE: <span>(use keyboard up/down arrow keys)</span>
+      </h3>
       <Holder>
         <button onClick={onDecrease}>
           <ImArrowDown2 />
@@ -43,6 +45,11 @@ const Outer = styled.div`
   h3 {
     margin: 0 0 5px 0;
     text-align: center;
+
+    span {
+      font-weight: normal;
+      font-size: 16px;
+    }
   }
 
   button {

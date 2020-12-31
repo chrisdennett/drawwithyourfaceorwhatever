@@ -11,7 +11,7 @@ import { PaintingCanvas } from "./pages/PaintingCanvas";
 import background from "./img/notebook-dark-bg.png";
 
 const App = () => {
-  const [currPage, setCurrPage] = useState("makeBrush"); // "paint"/"makeBrush"
+  const [currPage, setCurrPage] = useState("paint"); // "paint"/"makeBrush"
   const [brush, setBrush] = useState({ data: 0, canvas: null });
   const [brushImgObj, setBrushImgObj] = useState({ data: 0, canvas: null });
   const [maskImgObj, setMaskImgObj] = useState({ data: 0, canvas: null });
