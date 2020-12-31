@@ -14,7 +14,6 @@ export const BrushMaker = ({
   onUpdate,
   maskImgObj,
   onMaskUpdate,
-  showPaintPage,
   brush,
   maskBrushSize,
   onMaskBrushSizeChange,

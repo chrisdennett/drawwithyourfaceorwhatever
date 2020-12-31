@@ -109,10 +109,10 @@ const App = () => {
     <Page style={{ backgroundImage: `url(${background})` }}>
       <TopBar>
         <Tab onClick={showPaintPage} isSelected={currPage === "paint"}>
-          paint-with-your-face-or-whatever
+          paint
         </Tab>
         <Tab onClick={showMakeBrushPage} isSelected={currPage === "makeBrush"}>
-          edit-brush-of-your-face-or-whatever
+          edit-brush
         </Tab>
       </TopBar>
 

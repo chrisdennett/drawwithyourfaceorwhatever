@@ -35,9 +35,10 @@ export const PaintingCanvas = ({
 
   const onPhotoSelected = (img) => {
     console.log("img: ", img);
+    onUpdate(img);
   };
 
-  const saveImg = (img) => {
+  const saveImg = () => {
     const filename = "ipaintedwithmyfaceorwhatever";
 
     if (!painting.canvas) return;
