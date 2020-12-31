@@ -4,14 +4,13 @@ import styled from "styled-components";
 import { BrushSizeControl } from "../components/BrushSizeControl";
 import { ControlledDrawingCanvas } from "../components/ControlledDrawingCanvas";
 import { MouseFollower } from "../components/MouseFollower";
-import { getClearCanvas } from "../helpers/helpers";
+import { getBlankCanvas } from "../helpers/helpers";
 import { useKeyPress } from "../hooks/useKeyPress";
 
 export const PaintingCanvas = ({
   painting,
   onUpdate,
   brush,
-  showMakeBrushPage,
   brushSize,
   onBrushSizeChange,
   reducePaintBrushSize,
@@ -22,7 +21,7 @@ export const PaintingCanvas = ({
   const clearPainting = () => {
     const w = painting.canvas.width;
     const h = painting.canvas.height;
-    onUpdate(getClearCanvas(w, h));
+    onUpdate(getBlankCanvas(w, h));
   };
 
   useKeyPress("ArrowUp", () => increasePaintBrushSize());
@@ -34,7 +33,7 @@ export const PaintingCanvas = ({
   };
 
   return (
-    <div onMouseMove={onMouseMove}>
+    <Outer onMouseMove={onMouseMove}>
       <MouseFollower pos={mousePos} size={brushSize} />
 
       <Controls>
@@ -48,15 +47,27 @@ export const PaintingCanvas = ({
         brush={brush}
         brushWidth={brushSize}
       />
-    </div>
+    </Outer>
   );
 };
 
+const Outer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Controls = styled.div`
-  height: 100px;
+  height: 80px;
+  min-width: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Canvas = styled(ControlledDrawingCanvas)`
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   cursor: crosshair;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 `;

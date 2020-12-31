@@ -7,8 +7,8 @@ export const BrushSizeControl = ({ value, onChange }) => {
   const onDecrease = () => onChange(value - 1);
 
   return (
-    <div>
-      <button onClick={onIncrease}>UP</button>
+    <Holder>
+      <button onClick={onDecrease}>DOWN</button>
       <StyledSlider
         value={value}
         onChange={onChange}
@@ -17,14 +17,23 @@ export const BrushSizeControl = ({ value, onChange }) => {
         min={5}
         max={500}
       />
-      <button onClick={onDecrease}>DOWN</button>
-    </div>
+      <button onClick={onIncrease}>UP</button>
+    </Holder>
   );
 };
 
 const StyledSlider = styled(ReactSlider)`
   width: 100%;
+  min-width: 300px;
   height: 25px;
+`;
+
+const Holder = styled.div`
+  /* display: flex; */
+  position: relative;
+  max-width: 400px;
+  display: flex;
+  /* align-items: center; */
 `;
 
 // THUMB
@@ -35,11 +44,12 @@ const Thumb = (props, state) => (
 const StyledThumb = styled.div`
   height: 25px;
   line-height: 25px;
-  width: 25px;
+  width: 45px;
   text-align: center;
+  border: none;
   background-color: #000;
   color: #fff;
-  border-radius: 50%;
+  border-radius: 1px;
   cursor: grab;
 `;
 
@@ -51,5 +61,5 @@ const StyledTrack = styled.div`
   bottom: 0;
   background: ${(props) =>
     props.index === 2 ? "#f00" : props.index === 1 ? "#ddd" : "red"};
-  border-radius: 999px;
+  /* border-radius: 999px; */
 `;

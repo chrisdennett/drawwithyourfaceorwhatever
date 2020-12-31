@@ -99,16 +99,22 @@ const CenteredHolder = styled.div`
 `;
 
 const Page = styled.div`
-  background: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Controls = styled.div`
+  height: 80px;
+  min-width: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Content = styled.div`
   display: flex;
-`;
-
-const Controls = styled.div`
-  height: 100px;
-  padding: 10px;
 `;
 
 const CanvasHolder = styled.div`

@@ -3,11 +3,13 @@ import styled from "styled-components";
 import {
   createBrushCanvas,
   createCanvasFromImage,
+  getBlankCanvas,
   getClearCanvas,
   getTrimmedCanvas,
 } from "./helpers/helpers";
 import { BrushMaker } from "./pages/Brushmaker";
 import { PaintingCanvas } from "./pages/PaintingCanvas";
+import background from "./img/notebook-dark-bg.png";
 
 const App = () => {
   const [currPage, setCurrPage] = useState("paint"); // pages "paint" / "makeBrush"
@@ -48,6 +50,7 @@ const App = () => {
     }
   });
 
+  // CREATE BRUSH CANVAS
   useEffect(() => {
     if (!brushImgObj.canvas || !maskImgObj.canvas) return;
 
@@ -62,13 +65,14 @@ const App = () => {
     });
   }, [brushImgObj, maskImgObj]);
 
+  // DRAWING PAINTING TO SCREEN
   useEffect(() => {
     if (!painting.canvas) {
       setPainting((prev) => {
         return {
-          canvas: getClearCanvas(
+          canvas: getBlankCanvas(
             window.innerWidth - 60,
-            window.innerHeight - 200
+            window.innerHeight - 140
           ),
           data: prev.data + 1,
         };
@@ -103,13 +107,13 @@ const App = () => {
   const increaseMaskBrushSize = () => setMaskBrushSize((prev) => prev + 1);
 
   return (
-    <Page>
+    <Page style={{ backgroundImage: `url(${background})` }}>
       <TopBar>
         <Tab onClick={showPaintPage} isSelected={currPage === "paint"}>
-          Paint-with-your-face-or-whatever
+          paint-with-your-face-or-whatever
         </Tab>
         <Tab onClick={showMakeBrushPage} isSelected={currPage === "makeBrush"}>
-          Make-brush-from-your-face-or-whatever
+          edit-brush-of-your-face-or-whatever
         </Tab>
       </TopBar>
 
@@ -160,6 +164,7 @@ const TopBar = styled.div`
 
 const Tab = styled.button`
   flex: 1;
+  text-transform: uppercase;
   font-size: 130%;
   border: none;
   border-bottom: 1px solid #333;
@@ -168,7 +173,7 @@ const Tab = styled.button`
   position: relative;
   border-radius: 0;
   outline: none;
-  box-shadow: 0 3px 5px rgba(0,0,0,0.65)
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 
   :after {
     display: ${(props) => (props.isSelected ? "block" : "none")};

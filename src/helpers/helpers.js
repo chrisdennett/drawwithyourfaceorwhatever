@@ -146,6 +146,17 @@ export const getClearCanvas = (w, h) => {
   return canvas;
 };
 
+export const getBlankCanvas = (w, h) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, w, h);
+
+  return canvas;
+};
+
 export const getTrimmedCanvas = (canvas) => {
   var ctx = canvas.getContext("2d");
   var width = canvas.width;
