@@ -65,7 +65,7 @@ export const BrushMaker = ({
       <Content>
         {brushImgObj && (
           <CanvasHolder style={containerStyle}>
-            <h3>Draw over photo or whatever</h3>
+            <h3>Paint over photo or whatever</h3>
             <StyledPhotoCanvas photo={brushImgObj} />
             <StyledControlledDrawingCanvas
               brushSi
